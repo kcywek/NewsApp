@@ -1,0 +1,108 @@
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion Versions.compileSdk
+
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            debuggable = true
+        }
+
+        release {
+            debuggable = false
+            minifyEnabled true
+            proguardFiles 'proguard-rules.pro', getDefaultProguardFile('proguard-android.txt')
+        }
+    }
+
+    compileOptions {
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
+
+        // Sets Java compatibility to Java 8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+
+        freeCompilerArgs += [
+            "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-Xuse-experimental=androidx.paging.ExperimentalPagingApi",
+            "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
+            "-Xuse-experimental=kotlin.time.ExperimentalTime",
+            "-Xuse-experimental=kotlin.ExperimentalStdlibApi",
+        ]
+    }
+
+    lintOptions {
+        disable("MissingClass")
+
+        abortOnError true
+    }
+
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        animationsDisabled = true
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/LICENSE-notice.md'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
+        exclude("META-INF/*.kotlin_module")
+    }
+
+    sourceSets.all { sourceSet ->
+        sourceSet.java.srcDirs += "src/${sourceSet.getName()}/kotlin"
+    }
+
+    dependencies {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+
+        //coroutines
+        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+        androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+
+        //junit
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5}"
+        testImplementation "org.junit.jupiter:junit-jupiter-params:${Versions.junit5}"
+        testImplementation "androidx.test:core:${Versions.runner}"
+
+        //junit instrumented
+        androidTestImplementation "androidx.test:core:${Versions.runner}"
+        androidTestImplementation("androidx.test:runner:${Versions.runner}")
+        androidTestImplementation "androidx.test:rules:${Versions.runner}"
+        androidTestImplementation "androidx.test.ext:junit:${Versions.androidJunit}"
+        androidTestUtil "androidx.test:orchestrator:${Versions.runner}"
+        androidTestImplementation "androidx.arch.core:core-testing:${Versions.archCoreTesting}"
+
+        //Having full java.time.* below api 26
+        coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:${Versions.jdkDesugar}"
+
+        //solving errors in tests
+        testImplementation "com.google.code.gson:gson:${Versions.gson}"
+    }
+}
+
+

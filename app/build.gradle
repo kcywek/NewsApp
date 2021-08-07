@@ -1,19 +1,26 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-}
+apply plugin: 'com.android.application'
+apply from: "$rootDir/shared.gradle"
+//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: "kotlin-parcelize"
 
 android {
-    compileSdk 30
+    compileSdkVersion Versions.compileSdk
 
     defaultConfig {
-        applicationId "com.test.newsapp"
-        minSdk 23
-        targetSdk 30
-        versionCode 1
-        versionName "1.0"
-
+        applicationId ApplicationId.packageName
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionName = "1.0.0"
+        versionCode generateVersionCode(versionName)
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildFeatures {
+        viewBinding true
+        buildConfig = true
     }
 
     buildTypes {
@@ -22,22 +29,82 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+
+    lintOptions {
+        disable("IidCompatibilityCheckFailure")
+        abortOnError true
+        lintConfig = file("lint.xml")
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
+
+    testOptions {
+        animationsDisabled = true
+        unitTests {
+            includeAndroidResources = true
+        }
     }
 }
 
 dependencies {
+    //UI
+    implementation "androidx.appcompat:appcompat:${Versions.appcompat}"
+    implementation "androidx.core:core-ktx:${Versions.coreKtx}"
+    implementation "androidx.fragment:fragment:${Versions.fragment}"
+    implementation "androidx.fragment:fragment-ktx:${Versions.fragment}"
+    implementation "androidx.activity:activity:${Versions.activity}"
+    implementation "androidx.activity:activity-ktx:${Versions.activity}"
+    implementation "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    implementation "com.google.android.material:material:${Versions.materialComponents}"
 
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    //Core
+    implementation project(":common")
+
+    //Dependency Injection
+    implementation "io.insert-koin:koin-android:${Versions.koin}"
+    testImplementation "io.insert-koin:koin-test:${Versions.koin}"
+    androidTestImplementation "io.insert-koin:koin-test:${Versions.koin}"
+
+    //Mockito
+    testImplementation "org.mockito.kotlin:mockito-kotlin:${Versions.mockitoKotlin}"
+
+    //junit
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5}"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:${Versions.junit5}"
+    testImplementation "androidx.test:core:${Versions.runner}"
+
+    //Work manager
+    implementation "io.insert-koin:koin-androidx-workmanager:${Versions.koin}"
+
+//    implementation 'androidx.core:core-ktx:1.3.2'
+//    implementation 'androidx.appcompat:appcompat:1.2.0'
+//    implementation 'com.google.android.material:material:1.3.0'
+//    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+//    testImplementation 'junit:junit:4.+'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+static def generateVersionCode(String versionName) {
+    String[] majorMinorPatch = versionName.split('-').first().split('\\.')
+
+    int major = majorMinorPatch.getAt(0).toInteger()
+    if (major > 99) {
+        throw new GradleException("Major version of application $major can not be higher than 99")
+    }
+
+    int minor = majorMinorPatch.getAt(1).toInteger()
+    if (minor > 99) {
+        throw new GradleException("Minor version of application $minor can not be higher than 99")
+    }
+
+    int patch = majorMinorPatch.getAt(2).toInteger()
+    if (patch > 9) {
+        throw new GradleException("Patch (hotfix) version $patch can not be higher than 9")
+    }
+
+    return major * 1000 + minor * 10 + patch
+}
+
+static def gitSha() {
+    'git rev-parse --verify --short HEAD'.execute().text.trim().substring(0, 6)
 }
