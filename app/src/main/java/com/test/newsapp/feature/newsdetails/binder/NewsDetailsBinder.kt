@@ -17,6 +17,6 @@ internal class NewsDetailsBinder(
             .load(imageUrl)
             .into(imageView)
         titleView.text = title
-        descriptionView.text = description
+        descriptionView.text = content
     }
 }

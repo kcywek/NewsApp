@@ -11,5 +11,4 @@ internal class NewsRouterImpl(
     override fun navigateToNewsDetails(news: ArticleEntity) {
         navController.navigate(NewsFragmentDirections.navigateToNewsDetails(news))
     }
-
 }

@@ -1,4 +1,4 @@
-package com.test.newsapp.feature.news.mapper.viewmodel
+package com.test.newsapp.feature.news.viewmodel
 
 import com.test.newsapp.R
 import com.test.newsapp.domain.common.model.NewsSortTypeEntity
@@ -8,7 +8,6 @@ import com.test.newsapp.feature.TestDispatcherProvider
 import com.test.newsapp.feature.news.mapper.NewsStateMapper
 import com.test.newsapp.feature.news.model.DEFAULT_FROM_DATE
 import com.test.newsapp.feature.news.model.NewsEffect
-import com.test.newsapp.feature.news.viewmodel.NewsViewModel
 import com.test.test.assertFlowEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking

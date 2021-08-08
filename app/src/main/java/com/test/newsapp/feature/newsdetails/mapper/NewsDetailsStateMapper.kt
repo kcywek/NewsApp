@@ -8,7 +8,7 @@ internal class NewsDetailsStateMapper {
     fun from(state: NewsDetailsState): NewsDetailsViewState = with(state) {
         NewsDetailsViewState(
             title = news.title,
-            description = news.content,
+            content = news.content,
             imageUrl = news.urlToImage,
         )
     }

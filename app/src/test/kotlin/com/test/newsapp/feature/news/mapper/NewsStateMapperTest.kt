@@ -1,7 +1,7 @@
 package com.test.newsapp.feature.news.mapper
 
-import com.test.newsapp.domain.common.model.ArticleEntity
-import com.test.newsapp.feature.news.model.NewsItem
+import com.test.newsapp.feature.news.fakeArticlesList
+import com.test.newsapp.feature.news.fakeNewsItems
 import com.test.newsapp.feature.news.model.NewsState
 import com.test.newsapp.feature.news.model.NewsViewState
 import org.junit.jupiter.api.Assertions
@@ -27,27 +27,11 @@ internal class NewsStateMapperTest {
 
     @Test
     fun `when articles are present then maps to news view state with results visible`() {
-        val articlesList = listOf(
-            ArticleEntity(
-                title = "",
-                author = "",
-                description = "",
-                url = "",
-                urlToImage = "",
-                content = "",
-            )
-        )
-        val newsItems = listOf(
-            NewsItem(
-                title = "",
-                description = "",
-            )
-        )
         val state = NewsState(
-            items = articlesList,
+            items = fakeArticlesList,
         )
         val expectedState = NewsViewState(
-            items = newsItems,
+            items = fakeNewsItems,
             isResultsVisible = true,
             isNoResultsVisible = false,
         )
