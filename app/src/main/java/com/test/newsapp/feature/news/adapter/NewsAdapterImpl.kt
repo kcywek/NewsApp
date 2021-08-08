@@ -12,6 +12,8 @@ internal class NewsAdapterImpl : ListAdapter<NewsItem, BaseViewHolder<NewsItem>>
     ItemDiffer(NewsItem::hashCode)
 ), NewsAdapter {
 
+    var onNewsClickListener: ((NewsItem) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<NewsItem> =
         ItemValueViewHolder(parent)
 
@@ -25,6 +27,7 @@ internal class NewsAdapterImpl : ListAdapter<NewsItem, BaseViewHolder<NewsItem>>
         ) {
 
         override fun ItemNewsBinding.bind(item: NewsItem) {
+            itemView.setOnClickListener { onNewsClickListener?.invoke(item) }
             title.text = item.title
             description.text = item.description
         }

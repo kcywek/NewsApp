@@ -15,4 +15,7 @@
     <!-- News list -->
     <dimen name="news_item_padding">16dp</dimen>
     <dimen name="news_item_margin">4dp</dimen>
+
+    <!-- News details -->
+    <dimen name="news_details_image_height">200dp</dimen>
 </resources>

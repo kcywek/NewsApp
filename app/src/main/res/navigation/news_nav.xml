@@ -10,12 +10,21 @@
         android:name="com.test.newsapp.feature.news.ui.NewsFragment"
         tools:layout="@layout/fragment_news">
 
-        <!-- TODO: -->
-<!--        <action-->
-<!--            android:id="@+id/navigateToNewsDetails"-->
-<!--            app:destination="@id/newsDetails"-->
-<!--            app:popUpTo="@id/news_nav"-->
-<!--            app:popUpToInclusive="true" />-->
+        <action
+            android:id="@+id/navigateToNewsDetails"
+            app:destination="@id/newsDetails" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/newsDetails"
+        android:name="com.test.newsapp.feature.newsdetails.ui.NewsDetailsFragment"
+        tools:layout="@layout/fragment_details_news">
+
+        <argument
+            android:name="news"
+            app:nullable="false"
+            app:argType="com.test.newsapp.domain.common.model.ArticleEntity" />
 
     </fragment>
 

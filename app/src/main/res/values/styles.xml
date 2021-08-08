@@ -4,9 +4,27 @@
     <style name="NewsItemTitle">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="NewsItemDescription">
         <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="NewsDetailsTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="NewsDetailsDescription">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
+    <style name="NewsDetailsUrl">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.test.common.util.binding.Binder
 import com.test.common.util.binding.viewBinding
 import com.test.common.util.delegates.lazyViewLifecycle
@@ -17,6 +18,7 @@ import com.test.newsapp.feature.news.adapter.NewsAdapterImpl
 import com.test.newsapp.feature.news.binder.NewsBinder
 import com.test.newsapp.feature.news.model.NewsEffect
 import com.test.newsapp.feature.news.model.NewsViewState
+import com.test.newsapp.feature.news.router.NewsRouterImpl
 import com.test.newsapp.feature.news.viewmodel.NewsViewModel
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,10 +28,11 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     private val binding by viewBinding(FragmentNewsBinding::bind)
     private val viewModel by viewModel<NewsViewModel>()
     private val adapter = NewsAdapterImpl()
+    private val router by lazy { NewsRouterImpl(findNavController()) }
     private val softKeyboardController: SoftKeyboardController by lazyViewLifecycle {
         SystemSoftKeyboardController(
             view = requireView(),
-            imm = get()
+            imm = get(),
         )
     }
     private val binder: Binder<NewsViewState> by lazyViewLifecycle {
@@ -51,12 +54,16 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
 
     private fun setViews() = with(binding) {
         recyclerView.adapter = adapter
-        softKeyboardController.showKeyboard()
+        softKeyboardController.showKeyboard(searchInputView)
     }
 
     private fun setListeners() {
         binding.searchInputView.setOnEditorSearchActionListener {
             viewModel.onSearchTriggered(it.text.toString())
+        }
+        adapter.onNewsClickListener = {
+            softKeyboardController.hideKeyboard()
+            viewModel.onNewsClicked(router, it)
         }
     }
 

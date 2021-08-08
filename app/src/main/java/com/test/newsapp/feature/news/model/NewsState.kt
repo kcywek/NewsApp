@@ -4,6 +4,7 @@ import com.test.newsapp.domain.common.model.ArticleEntity
 import com.test.newsapp.domain.common.model.NewsSortTypeEntity
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.*
 
 internal data class NewsState(
     val items: List<ArticleEntity> = listOf(),
@@ -12,4 +13,7 @@ internal data class NewsState(
     val from: ZonedDateTime = DEFAULT_FROM_DATE
 )
 
-val DEFAULT_FROM_DATE = ZonedDateTime.of(2020,1,1, 0, 0, 0, 0, ZoneId.systemDefault())
+val DEFAULT_FROM_DATE: ZonedDateTime = ZonedDateTime.of(
+    Calendar.getInstance().get(Calendar.YEAR),
+    Calendar.getInstance().get(Calendar.MONTH) + 1,
+    1, 0, 0, 0, 0, ZoneId.systemDefault())

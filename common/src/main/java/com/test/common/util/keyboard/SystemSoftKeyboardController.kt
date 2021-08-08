@@ -14,7 +14,7 @@ class SystemSoftKeyboardController(
         imm.toggleSoftInput(SHOW_FORCED, 0)
     }
 
-    fun showKeyboard(targetView: View) {
+    override fun showKeyboard(targetView: View) {
         imm.showSoftInput(targetView, SHOW_IMPLICIT)
     }
 

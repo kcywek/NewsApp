@@ -32,7 +32,7 @@
             android:id="@+id/searchInputView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint=""
+            android:hint="@string/news_list_entry_hint"
             android:imeOptions="actionSearch"
             android:importantForAutofill="no"
             android:inputType="text|textNoSuggestions">

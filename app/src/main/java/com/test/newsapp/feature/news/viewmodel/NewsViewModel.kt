@@ -12,8 +12,10 @@ import com.test.newsapp.domain.common.model.NewsSortTypeEntity
 import com.test.newsapp.domain.news.FetchNewsUseCase
 import com.test.newsapp.feature.news.mapper.NewsStateMapper
 import com.test.newsapp.feature.news.model.NewsEffect
+import com.test.newsapp.feature.news.model.NewsItem
 import com.test.newsapp.feature.news.model.NewsState
 import com.test.newsapp.feature.news.model.NewsViewState
+import com.test.newsapp.feature.news.router.NewsRouter
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -79,6 +81,12 @@ internal class NewsViewModel(
                 _effect.send(NewsEffect.ShowError(R.string.news_list_minimum_query_length_error))
             }
         }
+    }
+
+    fun onNewsClicked(router: NewsRouter, newsItem: NewsItem) {
+        router.navigateToNewsDetails(
+            currentState.items.first { it.title == newsItem.title }
+        )
     }
 
     companion object {

@@ -57,6 +57,10 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     implementation "com.google.android.material:material:${Versions.materialComponents}"
 
+    //Image Provider
+    implementation "com.github.bumptech.glide:glide:${Versions.glide}"
+    kapt "com.github.bumptech.glide:compiler:${Versions.glide}"
+
     implementation "androidx.navigation:navigation-runtime-ktx:${Versions.navigation}"
     implementation "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
 

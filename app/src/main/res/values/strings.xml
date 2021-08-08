@@ -5,4 +5,9 @@
     <string name="news_toolbar">News list</string>
     <string name="news_list_no_results">No results</string>
     <string name="news_list_minimum_query_length_error">Minimum query length is 2</string>
+    <string name="news_list_entry_hint">Type query to search news</string>
+
+    <!-- News detals list -->
+    <string name="news_details_toolbar">News details</string>
+    <string name="news_details_go_to_full_news">Show full content</string>
 </resources>
