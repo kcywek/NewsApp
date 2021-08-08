@@ -5,5 +5,6 @@ data class ArticleEntity(
     val author: String?,
     val description: String,
     val url: String,
+    val urlToImage: String,
     val content: String,
 )

@@ -6,10 +6,6 @@ import org.mockito.kotlin.KArgumentCaptor
 import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.whenever
 
-/**
- * Documentation https://spotonteam.atlassian.net/wiki/spaces/OMNICHANNE/pages/983465987/invokeWheneverCapture
- */
-
 private typealias CaptorFnc <T> = KArgumentCaptor<T>.(KArgumentCaptor<T>) -> Any
 
 //region Zero Arguments

@@ -1,7 +1,15 @@
 package com.test.newsapp.feature.news.model
 
 import com.test.newsapp.domain.common.model.ArticleEntity
+import com.test.newsapp.domain.common.model.NewsSortTypeEntity
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 internal data class NewsState(
     val items: List<ArticleEntity> = listOf(),
+    val query: String = "",
+    val sortBy: NewsSortTypeEntity = NewsSortTypeEntity.PUBLISHED_AT,
+    val from: ZonedDateTime = DEFAULT_FROM_DATE
 )
+
+val DEFAULT_FROM_DATE = ZonedDateTime.of(2020,1,1, 0, 0, 0, 0, ZoneId.systemDefault())

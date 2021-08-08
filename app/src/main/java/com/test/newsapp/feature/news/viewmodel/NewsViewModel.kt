@@ -18,6 +18,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.time.ZonedDateTime
 
 internal class NewsViewModel(
     private val newsUseCase: FetchNewsUseCase,
@@ -25,30 +26,53 @@ internal class NewsViewModel(
 ) : ViewModel() {
 
     private val state = NullSafeMutableLiveData(NewsState())
+    private val currentState: NewsState get() = checkNotNull(state.value)
     val viewState: LiveData<NewsViewState> = state.mapInBackground(mapper::from)
 
     private val _effect: Channel<NewsEffect> = Channel()
     val effect: Flow<NewsEffect> = _effect.receiveAsFlow()
 
-    private suspend fun getNews(query: String) {
-        newsUseCase.run(
-            query = query,
-            sortBy = NewsSortTypeEntity.POPULARITY
-        )
-            .onSuccess {
-                state.reduce {
-                    copy(items = it)
-                }
-            }
-            .onFailure {
-                throw it
-            }
+    fun onSearchTriggered(query: String) {
+        state.reduce {
+            copy(
+                query = query,
+            )
+        }
+        updateState()
     }
 
-    fun onSearchTriggered(query: String) {
-        if (query.length >= MINIMUM_QUERY_LENGTH) {
+    fun onSortTypeTriggered(sortBy: NewsSortTypeEntity) {
+        state.reduce {
+            copy(
+                sortBy = sortBy,
+            )
+        }
+        updateState()
+    }
+
+    fun onFromChanged(from: ZonedDateTime) {
+        state.reduce {
+            copy(
+                from = from,
+            )
+        }
+        updateState()
+    }
+
+    private fun updateState() {
+        if (currentState.query.length >= MINIMUM_QUERY_LENGTH) {
             viewModelScope.launch {
-                getNews(query)
+                newsUseCase.run(
+                    query = currentState.query,
+                    sortBy = currentState.sortBy,
+                    from = currentState.from,
+                ).onSuccess {
+                    state.reduce {
+                        copy(items = it)
+                    }
+                }.onFailure {
+                    throw it
+                }
             }
         } else {
             viewModelScope.launch(dispatcherProvider.main) {

@@ -13,8 +13,8 @@ internal class NewsMapperImplTest {
     @Test
     fun `maps news response to articles list`() {
         Assertions.assertEquals(
+            fakeArticleList,
             mapper.from(fakeNewsResponse),
-            fakeArticleList
         )
     }
 }

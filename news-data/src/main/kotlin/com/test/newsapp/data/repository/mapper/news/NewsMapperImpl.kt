@@ -13,6 +13,7 @@ internal class NewsMapperImpl : NewsMapper {
                         title = title,
                         author = author,
                         description = description,
+                        urlToImage = urlToImage,
                         url = url,
                         content = content,
                     )

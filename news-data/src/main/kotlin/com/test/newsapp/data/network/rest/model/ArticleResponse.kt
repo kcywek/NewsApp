@@ -5,5 +5,6 @@ internal data class ArticleResponse (
     val author: String?,
     val description: String,
     val url: String,
+    val urlToImage: String,
     val content: String,
 )

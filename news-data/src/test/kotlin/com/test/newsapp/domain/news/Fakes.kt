@@ -11,6 +11,7 @@ internal val fakeNewsResponse = NewsResponse(
             author = "author",
             description = "lorem ipsum",
             url = "https://example.com/",
+            urlToImage = "https://example-img.com/",
             content = "lorem ipsum dolor sit amet",
         )
     )
@@ -22,6 +23,7 @@ internal val fakeArticleList = listOf(
         author = "author",
         description = "lorem ipsum",
         url = "https://example.com/",
+        urlToImage = "https://example-img.com/",
         content = "lorem ipsum dolor sit amet",
     )
 )
