@@ -95,7 +95,7 @@ object Libraries {
     const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val moshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
     const val scalarConverter = "com.squareup.retrofit2:converter-scalars:${Versions.retrofit}"
-    const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
+    const val moshi = "com.squareup.moshi:moshi-kotlin:${Versions.moshi}"
     const val moshiAdapter = "com.squareup.moshi:moshi-adapters:${Versions.moshi}"
     const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
     const val okHttpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"

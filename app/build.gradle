@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply from: "$rootDir/shared.gradle"
-//apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: "kotlin-parcelize"
@@ -45,6 +44,9 @@ android {
 }
 
 dependencies {
+    implementation project(":news-data")
+    implementation project(":news-domain")
+
     //UI
     implementation "androidx.appcompat:appcompat:${Versions.appcompat}"
     implementation "androidx.core:core-ktx:${Versions.coreKtx}"
@@ -54,6 +56,9 @@ dependencies {
     implementation "androidx.activity:activity-ktx:${Versions.activity}"
     implementation "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     implementation "com.google.android.material:material:${Versions.materialComponents}"
+
+    implementation "androidx.navigation:navigation-runtime-ktx:${Versions.navigation}"
+    implementation "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
 
     //Core
     implementation project(":common")
@@ -74,14 +79,6 @@ dependencies {
 
     //Work manager
     implementation "io.insert-koin:koin-androidx-workmanager:${Versions.koin}"
-
-//    implementation 'androidx.core:core-ktx:1.3.2'
-//    implementation 'androidx.appcompat:appcompat:1.2.0'
-//    implementation 'com.google.android.material:material:1.3.0'
-//    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-//    testImplementation 'junit:junit:4.+'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
 
 static def generateVersionCode(String versionName) {
@@ -103,8 +100,4 @@ static def generateVersionCode(String versionName) {
     }
 
     return major * 1000 + minor * 10 + patch
-}
-
-static def gitSha() {
-    'git rev-parse --verify --short HEAD'.execute().text.trim().substring(0, 6)
 }

@@ -1,0 +1,46 @@
+apply plugin: 'com.android.library'
+apply from: "$rootDir/shared.gradle"
+apply plugin: 'kotlin-kapt'
+
+android {
+    defaultConfig {
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
+}
+
+dependencies {
+    implementation project(":news-domain")
+    implementation project(":common")
+
+    implementation "com.squareup.moshi:moshi-kotlin:${Versions.moshi}"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
+
+    implementation "com.google.code.gson:gson:${Versions.gson}"
+
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-scalars:${Versions.retrofit}"
+
+    //logging interceptors
+    implementation "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
+
+    //koin
+    implementation "io.insert-koin:koin-android:${Versions.koin}"
+    androidTestImplementation "io.insert-koin:koin-test:${Versions.koin}"
+
+    // Paging
+    implementation "androidx.paging:paging-runtime:${Versions.paging}"
+    testImplementation "androidx.paging:paging-common:${Versions.paging}"
+
+    //Work manager
+    implementation "androidx.work:work-runtime-ktx:${Versions.workManager}"
+    implementation "io.insert-koin:koin-androidx-workmanager:${Versions.koin}"
+    androidTestImplementation "androidx.work:work-testing:${Versions.workManager}"
+}

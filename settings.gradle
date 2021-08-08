@@ -1,2 +1,3 @@
 include ':app'
 include ':common', ':common-kotlin'
+include ':news-data', ':news-domain'

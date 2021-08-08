@@ -1,0 +1,11 @@
+apply plugin: 'com.android.library'
+apply from: "$rootDir/shared.gradle"
+apply plugin: "kotlin-parcelize"
+
+
+dependencies {
+    implementation project(":common-kotlin")
+
+    //koin
+    implementation "io.insert-koin:koin-android:${Versions.koin}"
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/news_nav"
+    app:startDestination="@+id/news">
+
+    <fragment
+        android:id="@+id/news"
+        android:name="com.test.newsapp.feature.news.ui.NewsFragment"
+        tools:layout="@layout/fragment_news">
+
+        <!-- TODO: -->
+<!--        <action-->
+<!--            android:id="@+id/navigateToNewsDetails"-->
+<!--            app:destination="@id/newsDetails"-->
+<!--            app:popUpTo="@id/news_nav"-->
+<!--            app:popUpToInclusive="true" />-->
+
+    </fragment>
+
+</navigation>
