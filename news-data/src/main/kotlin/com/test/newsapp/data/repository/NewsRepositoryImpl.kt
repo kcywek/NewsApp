@@ -4,7 +4,7 @@ import com.test.common.kotlin.result.ResultEntity
 import com.test.newsapp.data.network.rest.service.PosRestService
 import com.test.newsapp.data.repository.mapper.news.NewsMapper
 import com.test.newsapp.data.repository.mapper.news.NewsSortTypeMapper
-import com.test.newsapp.domain.common.model.NewsEntity
+import com.test.newsapp.domain.common.model.ArticleEntity
 import com.test.newsapp.domain.common.model.NewsSortTypeEntity
 import com.test.newsapp.domain.news.NewsRepository
 import java.time.ZonedDateTime
@@ -20,7 +20,7 @@ internal class NewsRepositoryImpl(
         query: String,
         sortBy: NewsSortTypeEntity,
         from: ZonedDateTime,
-    ): ResultEntity<NewsEntity> =
+    ): ResultEntity<List<ArticleEntity>> =
         ResultEntity.success(
             newsMapper.from(
                 posRestService.getNews(

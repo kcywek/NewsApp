@@ -1,5 +1,7 @@
 package com.test.newsapp.feature.news.model
 
 internal data class NewsViewState(
-    val text: String,
+    val items: List<NewsItem>,
+    val isResultsVisible: Boolean,
+    val isNoResultsVisible: Boolean,
 )

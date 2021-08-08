@@ -1,12 +1,21 @@
 package com.test.newsapp.data.repository.mapper.news
 
 import com.test.newsapp.data.network.rest.model.NewsResponse
-import com.test.newsapp.domain.common.model.NewsEntity
+import com.test.newsapp.domain.common.model.ArticleEntity
 
 internal class NewsMapperImpl : NewsMapper {
 
-    override fun from(newsResponse: NewsResponse): NewsEntity =
-        NewsEntity(
-            status = newsResponse.status,
-        )
+    override fun from(newsResponse: NewsResponse): List<ArticleEntity> =
+        newsResponse.articles
+            .map {
+                with(it) {
+                    ArticleEntity(
+                        title = title,
+                        author = author,
+                        description = description,
+                        url = url,
+                        content = content,
+                    )
+                }
+            }
 }

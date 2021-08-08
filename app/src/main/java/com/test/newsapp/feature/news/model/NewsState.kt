@@ -1,5 +1,7 @@
 package com.test.newsapp.feature.news.model
 
+import com.test.newsapp.domain.common.model.ArticleEntity
+
 internal data class NewsState(
-    val text: String,
+    val items: List<ArticleEntity> = listOf(),
 )
