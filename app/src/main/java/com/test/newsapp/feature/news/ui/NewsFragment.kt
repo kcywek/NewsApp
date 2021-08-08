@@ -48,8 +48,8 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
-        setViews()
         setListeners()
+        setViews()
     }
 
     private fun setViews() = with(binding) {
@@ -59,6 +59,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
 
     private fun setListeners() {
         binding.searchInputView.setOnEditorSearchActionListener {
+            softKeyboardController.hideKeyboard()
             viewModel.onSearchTriggered(it.text.toString())
         }
         adapter.onNewsClickListener = {
@@ -76,10 +77,10 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         viewState.observe(viewLifecycleOwner, binder::bind)
         effect.observe(viewLifecycleOwner) {
             when(it) {
-                is NewsEffect.HideProgressDialog -> {} //TODO: handle news loading
+                is NewsEffect.HideProgressDialog -> binding.progressBar.hide()
                 is NewsEffect.ShowError ->
                     Toast.makeText(requireContext(), getString(it.text), Toast.LENGTH_SHORT).show()
-                is NewsEffect.ShowProgressDialog -> {} //TODO: handle news loading
+                is NewsEffect.ShowProgressDialog -> binding.progressBar.show()
             }
         }
     }

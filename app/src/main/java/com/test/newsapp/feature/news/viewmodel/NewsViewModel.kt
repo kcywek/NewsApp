@@ -64,15 +64,18 @@ internal class NewsViewModel(
     private fun updateState() {
         if (currentState.query.length >= MINIMUM_QUERY_LENGTH) {
             viewModelScope.launch {
+                _effect.send(NewsEffect.ShowProgressDialog)
                 newsUseCase.run(
                     query = currentState.query,
                     sortBy = currentState.sortBy,
                     from = currentState.from,
                 ).onSuccess {
+                    _effect.send(NewsEffect.HideProgressDialog)
                     state.reduce {
                         copy(items = it)
                     }
                 }.onFailure {
+                    _effect.send(NewsEffect.HideProgressDialog)
                     throw it
                 }
             }
