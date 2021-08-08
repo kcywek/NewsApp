@@ -78,6 +78,8 @@ android {
     }
 
     dependencies {
+        testImplementation project(":common-test")
+        
         implementation "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
 
         //coroutines

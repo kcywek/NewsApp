@@ -1,0 +1,15 @@
+apply plugin: 'com.android.library'
+apply from: "$rootDir/shared.gradle"
+
+dependencies {
+
+    //coroutines
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+
+    //junit
+    api "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}"
+
+    //mockito
+    api "org.mockito.kotlin:mockito-kotlin:${Versions.mockitoKotlin}"
+}

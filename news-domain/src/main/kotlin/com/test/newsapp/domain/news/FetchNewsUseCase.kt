@@ -12,6 +12,7 @@ class FetchNewsUseCase(
     suspend fun run(
         query: String,
         sortBy: NewsSortTypeEntity,
-    ): ResultEntity<List<ArticleEntity>> = newsRepository.fetchNews(query, sortBy, ZonedDateTime.now().minusDays(7))
+        from: ZonedDateTime,
+    ): ResultEntity<List<ArticleEntity>> = newsRepository.fetchNews(query, sortBy, from)
 
 }

@@ -20,16 +20,18 @@ internal class NewsRepositoryImpl(
         query: String,
         sortBy: NewsSortTypeEntity,
         from: ZonedDateTime,
-    ): ResultEntity<List<ArticleEntity>> =
-        ResultEntity.success(
+    ): ResultEntity<List<ArticleEntity>> {
+        val newsResponse = posRestService.getNews(
+            query = query,
+            sortBy = newsSortTypeMapper.from(sortBy),
+            from = simpleDateFormatter.format(from)
+        )
+        return ResultEntity.success(
             newsMapper.from(
-                posRestService.getNews(
-                    query = query,
-                    sortBy = newsSortTypeMapper.from(sortBy),
-                    from = simpleDateFormatter.format(from)
-                )
+                newsResponse
             )
         )
+    }
 
     private companion object {
         val simpleDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
