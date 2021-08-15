@@ -10,7 +10,7 @@ internal data class NewsState(
     val items: List<ArticleEntity> = listOf(),
     val query: String = "",
     val sortBy: NewsSortTypeEntity = NewsSortTypeEntity.PUBLISHED_AT,
-    val from: ZonedDateTime = DEFAULT_FROM_DATE
+    val from: ZonedDateTime = DEFAULT_FROM_DATE,
 )
 
 val DEFAULT_FROM_DATE: ZonedDateTime = ZonedDateTime.of(

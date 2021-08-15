@@ -15,10 +15,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-inline fun <T> MutableLiveData<T>.reduce(block: T.() -> T) {
-    value = block(checkNotNull(value))
-}
-
 inline fun <T> NullSafeMutableLiveData<T>.reduce(block: T.() -> T) {
     value = block(value)
 }
@@ -71,20 +67,6 @@ fun <X, Y> LiveData<X>.mapInBackground(mapFunction: (X) -> Y): LiveData<Y> {
         if (x == null) return@Observer
         CoroutineScope(DispatcherProviderWrapper.provider.default).launch {
             result.postValue(mapFunction(x))
-        }
-    })
-
-    return result
-}
-
-@MainThread
-fun <X, Y> LiveData<X>.mapNotNullInBackground(mapFunction: (X) -> Y?): LiveData<Y> {
-    val result = MediatorLiveData<Y>()
-
-    result.addSource(this, Observer<X> { x ->
-        if (x == null) return@Observer
-        CoroutineScope(DispatcherProviderWrapper.provider.default).launch {
-            mapFunction(x)?.let { result.postValue(it) }
         }
     })
 

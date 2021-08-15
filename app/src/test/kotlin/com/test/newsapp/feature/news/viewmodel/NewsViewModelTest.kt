@@ -1,5 +1,6 @@
 package com.test.newsapp.feature.news.viewmodel
 
+import com.test.common.kotlin.result.ResultEntity.Companion.success
 import com.test.newsapp.R
 import com.test.newsapp.domain.common.model.NewsSortTypeEntity
 import com.test.newsapp.domain.news.FetchNewsUseCase
@@ -15,6 +16,8 @@ import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import java.time.ZonedDateTime
@@ -22,7 +25,9 @@ import java.time.ZonedDateTime
 @ExtendWith(InstantTaskExecutorExtension::class)
 internal class NewsViewModelTest {
 
-    private val mockFetchNewsUseCase = mock<FetchNewsUseCase>()
+    private val mockFetchNewsUseCase = mock<FetchNewsUseCase> {
+        onBlocking { run(any(), any(), any()) } doReturn success(listOf())
+    }
     private val mockNewsStateMapper = mock<NewsStateMapper>()
 
     private val viewModel = NewsViewModel(
@@ -40,6 +45,12 @@ internal class NewsViewModelTest {
         val query = "test"
 
         viewModel.onSearchTriggered(query)
+
+        assertFlowEquals(
+            viewModel.effect,
+            NewsEffect.ShowProgressDialog,
+            NewsEffect.HideProgressDialog,
+        )
 
         verify(mockFetchNewsUseCase).run(
             query = query,
@@ -68,6 +79,13 @@ internal class NewsViewModelTest {
         viewModel.onSortTypeTriggered(sortBy)
         viewModel.onSearchTriggered(query)
 
+        assertFlowEquals(
+            viewModel.effect,
+            NewsEffect.ShowError(R.string.news_list_minimum_query_length_error),
+            NewsEffect.ShowProgressDialog,
+            NewsEffect.HideProgressDialog,
+        )
+
         verify(mockFetchNewsUseCase).run(
             query = query,
             sortBy = sortBy,
@@ -81,8 +99,15 @@ internal class NewsViewModelTest {
             val query = "test"
             val from = ZonedDateTime.now()
 
-            viewModel.onSearchTriggered(query)
             viewModel.onFromChanged(from)
+            viewModel.onSearchTriggered(query)
+
+            assertFlowEquals(
+                viewModel.effect,
+                NewsEffect.ShowError(R.string.news_list_minimum_query_length_error),
+                NewsEffect.ShowProgressDialog,
+                NewsEffect.HideProgressDialog,
+            )
 
             verify(mockFetchNewsUseCase).run(
                 query = query,

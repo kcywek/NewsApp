@@ -17,6 +17,20 @@ internal class NewsAdapterImpl : ListAdapter<NewsItem, BaseViewHolder<NewsItem>>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<NewsItem> =
         ItemValueViewHolder(parent)
 
+    override fun getItem(position: Int): NewsItem {
+        return if (currentList.isNotEmpty()) {
+            currentList[position % currentList.size]
+        } else {
+            super.getItem(position)
+        }
+    }
+
+    override fun getItemCount(): Int = if (currentList.isNotEmpty()) {
+        Int.MAX_VALUE
+    } else {
+        0
+    }
+
     override fun onBindViewHolder(holder: BaseViewHolder<NewsItem>, position: Int) =
         holder.bind(getItem(position))
 

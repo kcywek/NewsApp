@@ -2,7 +2,7 @@
     <string name="app_name">NewsApp</string>
 
     <!-- News list -->
-    <string name="news_toolbar">News list</string>
+    <string name="news_toolbar">Apple news</string>
     <string name="news_list_no_results">No results</string>
     <string name="news_list_minimum_query_length_error">Minimum query length is 2</string>
     <string name="news_list_entry_hint">Type query to search news</string>

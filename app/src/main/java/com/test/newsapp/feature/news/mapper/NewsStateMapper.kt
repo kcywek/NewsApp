@@ -6,16 +6,17 @@ import com.test.newsapp.feature.news.model.NewsViewState
 
 internal class NewsStateMapper {
 
-    fun from(state: NewsState): NewsViewState =
+    fun from(state: NewsState): NewsViewState = with(state) {
         NewsViewState(
-            isNoResultsVisible = state.items.isEmpty(),
-            isResultsVisible = state.items.isNotEmpty(),
-            items = state.items
+            isNoResultsVisible = items.isEmpty(),
+            isResultsVisible = items.isNotEmpty(),
+            items = items
                 .map {
                     NewsItem(
                         title = it.title,
                         description = it.description
                     )
-                }
+                },
         )
+    }
 }

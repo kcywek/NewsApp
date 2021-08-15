@@ -9,9 +9,6 @@ import com.test.common.util.binding.Binder
 import com.test.common.util.binding.viewBinding
 import com.test.common.util.delegates.lazyViewLifecycle
 import com.test.common.util.extensions.observe
-import com.test.common.util.extensions.setOnEditorSearchActionListener
-import com.test.common.util.keyboard.SoftKeyboardController
-import com.test.common.util.keyboard.SystemSoftKeyboardController
 import com.test.newsapp.R
 import com.test.newsapp.databinding.FragmentNewsBinding
 import com.test.newsapp.feature.news.adapter.NewsAdapterImpl
@@ -20,7 +17,6 @@ import com.test.newsapp.feature.news.model.NewsEffect
 import com.test.newsapp.feature.news.model.NewsViewState
 import com.test.newsapp.feature.news.router.NewsRouterImpl
 import com.test.newsapp.feature.news.viewmodel.NewsViewModel
-import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewsFragment : Fragment(R.layout.fragment_news) {
@@ -29,17 +25,11 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     private val viewModel by viewModel<NewsViewModel>()
     private val adapter = NewsAdapterImpl()
     private val router by lazy { NewsRouterImpl(findNavController()) }
-    private val softKeyboardController: SoftKeyboardController by lazyViewLifecycle {
-        SystemSoftKeyboardController(
-            view = requireView(),
-            imm = get(),
-        )
-    }
     private val binder: Binder<NewsViewState> by lazyViewLifecycle {
         with(binding) {
             NewsBinder(
                 adapter = adapter,
-                recyclerView = recyclerView,
+                viewPager = viewPager,
                 noResults = noResults,
             )
         }
@@ -50,26 +40,21 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         setupObservers()
         setListeners()
         setViews()
+        viewModel.onSearchTriggered("Apple")
     }
 
     private fun setViews() = with(binding) {
-        recyclerView.adapter = adapter
-        softKeyboardController.showKeyboard(searchInputView)
+        viewPager.adapter = adapter
     }
 
     private fun setListeners() {
-        binding.searchInputView.setOnEditorSearchActionListener {
-            softKeyboardController.hideKeyboard()
-            viewModel.onSearchTriggered(it.text.toString())
-        }
         adapter.onNewsClickListener = {
-            softKeyboardController.hideKeyboard()
             viewModel.onNewsClicked(router, it)
         }
     }
 
     override fun onDestroyView() {
-        binding.recyclerView.adapter = null
+        binding.viewPager.adapter = null
         super.onDestroyView()
     }
 
